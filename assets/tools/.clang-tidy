@@ -1,0 +1,103 @@
+# Clang-Tidy Configuration
+# Based on MISRA-C, NASA Power of Ten, and Michael Barr Embedded C Standard
+---
+Checks: '
+  -*,
+  bugprone-*,
+  -bugprone-easily-swappable-parameters,
+  cert-*,
+  clang-analyzer-*,
+  cppcoreguidelines-init-variables,
+  cppcoreguidelines-interfaces-global-init,
+  misc-*,
+  -misc-no-recursion,
+  modernize-use-bool-literals,
+  performance-*,
+  portability-*,
+  readability-*,
+  -readability-else-after-return,
+  -readability-magic-numbers,
+  -readability-isolate-declaration,
+  -readability-function-cognitive-complexity,
+  hicpp-no-assembler,
+  hicpp-no-malloc,
+  '
+
+WarningsAsErrors: ''
+
+HeaderFilterRegex: '.*'
+
+AnalyzeTemporaryDtors: false
+
+FormatStyle: file
+
+CheckOptions:
+  # Variable naming (3+ characters, no underscore prefix)
+  - key: readability-identifier-length.MinimumVariableNameLength
+    value: '3'
+  - key: readability-identifier-length.MinimumParameterNameLength
+    value: '3'
+  - key: readability-identifier-length.IgnoredVariableNames
+    value: '^[ijk]$'  # Allow i, j, k for loop counters only
+  
+  # Function naming
+  - key: readability-identifier-naming.FunctionCase
+    value: 'lower_case'
+  - key: readability-identifier-naming.VariableCase
+    value: 'lower_case'
+  - key: readability-identifier-naming.GlobalConstantCase
+    value: 'UPPER_CASE'
+  - key: readability-identifier-naming.MacroDefinitionCase
+    value: 'UPPER_CASE'
+  
+  # Prefixes for global and static variables
+  - key: readability-identifier-naming.GlobalVariablePrefix
+    value: 'g_'
+  - key: readability-identifier-naming.StaticVariablePrefix
+    value: 's_'
+  
+  # Function complexity limits
+  - key: readability-function-size.LineThreshold
+    value: '100'
+  - key: readability-function-size.StatementThreshold
+    value: '50'
+  - key: readability-function-size.BranchThreshold
+    value: '10'
+  - key: readability-function-size.ParameterThreshold
+    value: '6'
+  
+  # Enforce braces
+  - key: readability-braces-around-statements.ShortStatementLines
+    value: '0'
+  
+  # MISRA-related checks
+  - key: cppcoreguidelines-init-variables.IncludeStyle
+    value: 'llvm'
+  - key: cppcoreguidelines-init-variables.MathHeader
+    value: '<math.h>'
+  
+  # Cert checks configuration
+  - key: cert-dcl03-c.NewSuffixes
+    value: 'L;LL;LU;LLU'
+  
+  # Magic numbers (disabled but configured for reference)
+  - key: readability-magic-numbers.IgnoredIntegerValues
+    value: '0;1;2;10;100;-1'
+  - key: readability-magic-numbers.IgnoredFloatingPointValues
+    value: '0.0;1.0'
+  
+  # Misc checks
+  - key: misc-non-private-member-variables-in-classes.IgnoreClassesWithAllMemberVariablesBeingPublic
+    value: '1'
+  
+  # Performance checks
+  - key: performance-inefficient-string-concatenation.StrictMode
+    value: '0'
+  
+  # Modernize checks
+  - key: modernize-use-nullptr.NullMacros
+    value: 'NULL'
+  
+  # Signed/Unsigned comparisons
+  - key: bugprone-signed-char-misuse.CharTypeSuffix
+    value: 'U'

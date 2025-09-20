@@ -23,3 +23,4 @@ By following these standards, we aim to create a shared understanding among deve
 ## Available Guidelines
 
 - [C Coding Standards](guidelines/c-coding-standards.html) - Comprehensive C coding guidelines following industry standards
+- [Development Tools](guidelines/tools.html) - Automated code formatting and analysis tools configuration
