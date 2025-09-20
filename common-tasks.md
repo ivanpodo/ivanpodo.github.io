@@ -11,6 +11,7 @@ This page contains useful snippets and examples for common documentation tasks u
 ## Code Blocks
 
 ### Basic Code Block
+
 Display code with syntax highlighting:
 
 ```c
@@ -26,6 +27,7 @@ void initialize_system(void) {
 ```
 
 **Markdown:**
+
 ````markdown
 ```c
 void initialize_system(void) {
@@ -41,9 +43,11 @@ void initialize_system(void) {
 ````
 
 ### Inline Code
+
 Use backticks for inline code: `variable_name` or `function_call()`
 
 **Markdown:**
+
 ```markdown
 Use backticks for inline code: `variable_name` or `function_call()`
 ```
@@ -51,6 +55,7 @@ Use backticks for inline code: `variable_name` or `function_call()`
 ## Buttons and Links
 
 ### Basic Button
+
 [Link button](https://just-the-docs.com){: .btn }
 
 ```markdown
@@ -58,6 +63,7 @@ Use backticks for inline code: `variable_name` or `function_call()`
 ```
 
 ### Button Variations
+
 [Primary button](https://example.com){: .btn .btn-primary }
 [Purple button](https://example.com){: .btn .btn-purple }
 [Blue button](https://example.com){: .btn .btn-blue }
@@ -73,6 +79,7 @@ Use backticks for inline code: `variable_name` or `function_call()`
 ## Callouts and Alerts
 
 ### Information Callout
+
 {: .info }
 > This is an informational message providing helpful context.
 
@@ -82,6 +89,7 @@ Use backticks for inline code: `variable_name` or `function_call()`
 ```
 
 ### Warning Callout
+
 {: .warning }
 > This is a warning message about potential issues.
 
@@ -91,6 +99,7 @@ Use backticks for inline code: `variable_name` or `function_call()`
 ```
 
 ### Good/Success Callout
+
 {: .good }
 > This indicates successful completion or best practices.
 
@@ -100,6 +109,7 @@ Use backticks for inline code: `variable_name` or `function_call()`
 ```
 
 ### Tips Callout
+
 {: .tips }
 > This provides helpful tips and recommendations.
 
@@ -119,6 +129,7 @@ Use backticks for inline code: `variable_name` or `function_call()`
 | `read_buffer()` | `uint8_t *buf, size_t len` | `size_t` bytes_read |
 
 **Markdown:**
+
 ```markdown
 | Function | Parameters | Return Value |
 |----------|------------|--------------|
@@ -135,6 +146,7 @@ Use backticks for inline code: `variable_name` or `function_call()`
 | More text    | Centered       | 456.78        |
 
 **Markdown:**
+
 ```markdown
 | Left Aligned | Center Aligned | Right Aligned |
 |:-------------|:--------------:|--------------:|
@@ -144,7 +156,8 @@ Use backticks for inline code: `variable_name` or `function_call()`
 
 ## Lists
 
-### Ordered List
+### Ordered
+
 1. First step
 2. Second step
    1. Sub-step 2.1
@@ -152,6 +165,7 @@ Use backticks for inline code: `variable_name` or `function_call()`
 3. Third step
 
 ### Unordered List
+
 - Main point
 - Another point
   - Sub-point
@@ -160,12 +174,14 @@ Use backticks for inline code: `variable_name` or `function_call()`
 - Final point
 
 ### Task List
+
 - [x] Completed task
 - [x] Another completed task
 - [ ] Pending task
 - [ ] Future task
 
 **Markdown:**
+
 ```markdown
 - [x] Completed task
 - [ ] Pending task
@@ -174,18 +190,21 @@ Use backticks for inline code: `variable_name` or `function_call()`
 ## Text Formatting
 
 ### Emphasis
+
 - **Bold text** using `**text**`
 - *Italic text* using `*text*`
 - ***Bold and italic*** using `***text***`
 - ~~Strikethrough~~ using `~~text~~`
 
 ### Blockquotes
+
 > This is a blockquote.
-> 
+>
 > It can span multiple lines.
 >> Nested blockquotes are also possible.
 
 **Markdown:**
+
 ```markdown
 > This is a blockquote.
 > 
@@ -196,16 +215,19 @@ Use backticks for inline code: `variable_name` or `function_call()`
 ## Images
 
 ### Basic Image
+
 ```markdown
 ![Alt text](/assets/images/image.png)
 ```
 
 ### Image with Link
+
 ```markdown
 [![Alt text](/assets/images/image.png)](https://example.com)
 ```
 
 ### Image with Caption
+
 ```markdown
 ![Alt text](/assets/images/image.png)
 *Figure 1: Image caption*
@@ -237,6 +259,7 @@ void hidden_code_example(void) {
 </details>
 
 **Markdown:**
+
 ```markdown
 <details>
 <summary>Click to expand</summary>
@@ -249,6 +272,7 @@ Content goes here...
 ## Linking to Sections
 
 ### Internal Links
+
 Link to a section on the same page: [Jump to Tables](#tables)
 
 Link to another page: [C Coding Standards](guidelines/c-coding-standards.html)
@@ -256,6 +280,7 @@ Link to another page: [C Coding Standards](guidelines/c-coding-standards.html)
 Link to a specific section on another page: [MISRA Guidelines](guidelines/c-coding-standards.html#key-misra-c-guidelines)
 
 **Markdown:**
+
 ```markdown
 [Jump to Tables](#tables)
 [C Coding Standards](guidelines/c-coding-standards.html)
@@ -282,6 +307,7 @@ $$
 $$
 
 **Markdown:**
+
 ```markdown
 Inline math: $a^2 + b^2 = c^2$
 
@@ -308,6 +334,7 @@ Here's a sentence with a footnote[^1].
 [^1]: This is the footnote content.
 
 **Markdown:**
+
 ```markdown
 Here's a sentence with a footnote[^1].
 
