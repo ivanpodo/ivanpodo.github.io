@@ -39,15 +39,29 @@ CheckOptions:
     value: '3'
   - key: readability-identifier-length.IgnoredVariableNames
     value: '^[ijk]$'  # Allow i, j, k for loop counters only
+  - key: readability-identifier-length.MinimumExceptionNameLength
+    value: '3'
   
   # Function naming
   - key: readability-identifier-naming.FunctionCase
     value: 'lower_case'
   - key: readability-identifier-naming.VariableCase
     value: 'lower_case'
+  - key: readability-identifier-naming.ParameterCase
+    value: 'lower_case'
+  - key: readability-identifier-naming.LocalVariableCase
+    value: 'lower_case'
+  - key: readability-identifier-naming.GlobalVariableCase
+    value: 'lower_case'
+  - key: readability-identifier-naming.StaticVariableCase
+    value: 'lower_case'
+  - key: readability-identifier-naming.ConstantCase
+    value: 'UPPER_CASE'
   - key: readability-identifier-naming.GlobalConstantCase
     value: 'UPPER_CASE'
   - key: readability-identifier-naming.MacroDefinitionCase
+    value: 'UPPER_CASE'
+  - key: readability-identifier-naming.EnumConstantCase
     value: 'UPPER_CASE'
   
   # Prefixes for global and static variables
@@ -55,6 +69,16 @@ CheckOptions:
     value: 'g_'
   - key: readability-identifier-naming.StaticVariablePrefix
     value: 's_'
+
+  # Typedef suffix
+  - key: readability-identifier-naming.TypedefCase
+    value: 'lower_case'
+  - key: readability-identifier-naming.TypedefSuffix
+    value: '_t'
+  - key: readability-identifier-naming.StructCase
+    value: 'lower_case'
+  - key: readability-identifier-naming.UnionCase
+    value: 'lower_case'
   
   # Function complexity limits
   - key: readability-function-size.LineThreshold

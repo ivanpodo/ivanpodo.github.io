@@ -15,9 +15,10 @@ This section provides configuration files and usage instructions for automated c
 
 Clang-format automatically formats C code according to our style guidelines, ensuring consistent code formatting across the entire codebase.
 
-**Configuration File:** [Download .clang-format](/assets/tools/.clang-format)
+**Configuration File:** [Download .clang-format](/assets/tools/.clang-format){: .btn .btn-blue }
 
 #### Features
+
 - Enforces 2-space indentation
 - Maintains 100-character line limit
 - Applies consistent brace placement
@@ -25,6 +26,7 @@ Clang-format automatically formats C code according to our style guidelines, ens
 - Sorts includes automatically
 
 #### Installation
+
 ```bash
 # Ubuntu/Debian
 sudo apt-get install clang-format
@@ -37,6 +39,7 @@ sudo dnf install clang-tools-extra
 ```
 
 #### Usage
+
 ```bash
 # Format a single file in-place
 clang-format -i file.c
@@ -57,9 +60,10 @@ clang-format file.c | diff file.c -
 
 Clang-tidy performs static analysis, identifies bugs, and enforces coding standards including MISRA-C guidelines and NASA Power of Ten rules.
 
-**Configuration File:** [Download .clang-tidy](/assets/tools/.clang-tidy)
+**Configuration File:** [Download .clang-tidy](/assets/tools/.clang-tidy){: .btn .btn-blue }
 
 #### Features
+
 - Enforces variable naming conventions (3+ characters, no underscore prefix)
 - Checks for uninitialized variables
 - Limits function complexity (max 100 lines)
@@ -68,6 +72,7 @@ Clang-tidy performs static analysis, identifies bugs, and enforces coding standa
 - Enforces MISRA-C and NASA guidelines
 
 #### Installation
+
 ```bash
 # Ubuntu/Debian
 sudo apt-get install clang-tidy
@@ -80,6 +85,7 @@ sudo dnf install clang-tools-extra
 ```
 
 #### Usage
+
 ```bash
 # Run clang-tidy on a single file
 clang-tidy file.c -- -I/path/to/includes
@@ -104,12 +110,14 @@ bear -- make
 ### Project Setup
 
 1. **Copy configuration files to your project root:**
+
 ```bash
 wget https://ivanpodo.github.io/assets/tools/.clang-format
 wget https://ivanpodo.github.io/assets/tools/.clang-tidy
 ```
 
 2. **Add to version control:**
+
 ```bash
 git add .clang-format .clang-tidy
 git commit -m "Add code formatting and analysis tools configuration"
@@ -118,11 +126,14 @@ git commit -m "Add code formatting and analysis tools configuration"
 ### IDE Integration
 
 #### Visual Studio Code
+
 Install extensions:
+
 - **C/C++** by Microsoft
 - **Clang-Format** by xaver
 
 Settings (`.vscode/settings.json`):
+
 ```json
 {
   "editor.formatOnSave": true,
@@ -133,12 +144,15 @@ Settings (`.vscode/settings.json`):
 ```
 
 #### CLion
+
 - Go to **Settings → Editor → Code Style**
 - Enable **ClangFormat**
 - Set to use `.clang-format` file from project
 
 #### Vim
+
 Add to `.vimrc`:
+
 ```vim
 " Format on save
 autocmd BufWritePre *.c,*.h :ClangFormat
@@ -150,6 +164,7 @@ map <C-K> :ClangFormat<cr>
 ### CI/CD Integration
 
 #### GitHub Actions
+
 ```yaml
 name: Code Quality
 
@@ -176,7 +191,9 @@ jobs:
 ```
 
 #### Pre-commit Hook
+
 Create `.git/hooks/pre-commit`:
+
 ```bash
 #!/bin/sh
 # Check C files formatting and analysis before commit
@@ -210,11 +227,13 @@ echo "Code quality checks passed!"
 ```
 
 Make it executable:
+
 ```bash
 chmod +x .git/hooks/pre-commit
 ```
 
 ### Makefile Integration
+
 ```makefile
 # Format all source files
 format:
@@ -252,6 +271,7 @@ quality: format lint
 ### Common Issues
 
 **Issue:** Clang-format not found
+
 ```bash
 # Check if installed
 which clang-format
@@ -260,6 +280,7 @@ which clang-format
 ```
 
 **Issue:** Different formatting between developers
+
 ```bash
 # Ensure everyone uses the same version
 clang-format --version
@@ -269,6 +290,7 @@ clang-format --version
 ```
 
 **Issue:** Clang-tidy too slow
+
 ```bash
 # Use compilation database for faster analysis
 cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .
@@ -278,6 +300,7 @@ git diff --name-only | grep '\.c$' | xargs clang-tidy
 ```
 
 **Issue:** False positives from clang-tidy
+
 ```c
 // Disable specific check for a line
 int magic = 42; // NOLINT(readability-magic-numbers)
