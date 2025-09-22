@@ -49,9 +49,9 @@ if ((condition_one == EXPECTED_VALUE) && (condition_two != INVALID_STATE) && (co
 ### Indentation and Braces
 
 - Use **2 spaces** for indentation (no tabs)
-- Opening braces on **same line** for control structures (`if`, `while`, `for`, etc.)
-- Opening braces on **new line** for function definitions only
+- Opening braces on **same line** for ALL constructs including function definitions
 - Closing braces aligned with opening statement
+- `else` statements must be formatted as `} else {` (braces on same line)
 
 ### Code Structure
 
@@ -66,8 +66,7 @@ if ((condition_one == EXPECTED_VALUE) && (condition_two != INVALID_STATE) && (co
 /* Correct brace style with Yoda conditions */
 if (NULL != var) {
   ...
-}
-else {
+} else {
   ...
 }
 
@@ -79,22 +78,29 @@ if (ERROR_CODE == result) {
 /* Incorrect - missing braces */
 if (ERROR_CODE == result)
   return -1;  /* BAD: No braces */
+
+/* Incorrect - else on new line */
+if (NULL != var) {
+  ...
+}
+else {  /* BAD: else should be on same line as closing brace */
+  ...
+}
 ```
 
 ```c
-/* Function braces on new line, control structures on same line */
-int calculate_checksum(uint8_t *data, size_t length)
-{
+/* Function and control structure braces on same line */
+int calculate_checksum(uint8_t *data, size_t length) {
   uint16_t checksum = 0;
-  
+
   if (NULL == data) {
     return -1;
   }
-  
+
   for (size_t idx = 0; idx < length; idx++) {
     checksum += data[idx];
   }
-  
+
   return checksum;
 }
 ```
@@ -148,6 +154,7 @@ if (NULL != buffer) {
 - Use descriptive names (avoid abbreviations)
 - Prefix global variables with `g_`
 - Prefix static variables with `s_`
+- Easy to tell the scope of a variable at a glance
 
 ```c
 /* Good naming */
@@ -184,7 +191,39 @@ int i, j;                 /* Single character variables */
 
 - Use fixed-width integer types from `<stdint.h>`
 - Use `bool` type from `<stdbool.h>`
-- Explicitly specify signed/unsigned
+- **Avoid using floating point** - Floating point arithmetic should be avoided in embedded systems where possible due to performance and precision concerns
+- **Always use fixed-width data types** - Whenever the width, in bits or bytes, of an integer value matters in the program, one of the fixed width data types shall be used in place of char, short, int, long, or long long.
+
+#### Pointer Syntax Alignment
+
+- Use `char *c;` format (asterisk attached to variable name)
+- This makes it clear that `*` applies to the variable, not the type
+- This is especially important when declaring multiple pointers on one line
+
+```c
+/* Good: Clear that * applies to each variable */
+char *c;
+char *d, *e, *f;  /* All three are pointers */
+
+/* Bad: Misleading - looks like char* is the type */
+char* c, *d, *e;  /* Confusing: inconsistent style */
+char* c, d, e;    /* VERY BAD: only c is a pointer! */
+
+/* Example with fixed-width types */
+uint8_t *buffer_ptr;
+int32_t *data, *next, *prev;  /* All three are pointers to int32_t */
+```
+
+#### Fixed-Width Integer Types
+
+The signed and unsigned fixed-width integer types shall be as shown in the table below:
+
+| Integer Width | Signed Type | Unsigned Type |
+|--------------|-------------|---------------|
+| 8 bits       | `int8_t`    | `uint8_t`     |
+| 16 bits      | `int16_t`   | `uint16_t`    |
+| 32 bits      | `int32_t`   | `uint32_t`    |
+| 64 bits      | `int64_t`   | `uint64_t`    |
 
 ```c
 #include <stdint.h>
@@ -193,7 +232,17 @@ int i, j;                 /* Single character variables */
 uint8_t  byte_value;    /* 8-bit unsigned */
 int16_t  signed_word;   /* 16-bit signed */
 uint32_t address;       /* 32-bit unsigned */
-bool     is_enabled;    /* Boolean */
+bool     b_is_enabled;  /* Boolean */
+
+/* Good: Using fixed-width types */
+uint32_t timestamp;
+int16_t temperature_celsius;
+uint8_t buffer[256];
+
+/* Bad: Using standard types when width matters */
+/* int timestamp;        // Width varies by platform */
+/* short temperature;    // Width not guaranteed */
+/* char buffer[256];     // Signedness implementation-defined */
 ```
 
 ---
@@ -263,8 +312,7 @@ static sensor_data_t s_sensor_buffer[MAX_ENTRIES];
 
 ```c
 /* Good: Limited scope */
-void process_sensors(void)
-{
+void process_sensors(void) {
   for (uint8_t idx = 0; idx < SENSOR_COUNT; idx++) {
     uint16_t reading = read_sensor(idx);  /* Declared where used */
     if ((VALID_RANGE_MIN <= reading) && (VALID_RANGE_MAX >= reading)) {
@@ -354,8 +402,7 @@ for (uint8_t idx = 0; idx < BUFFER_SIZE; idx++) {
 ```c
 /* Good: Static or global scope */
 static uint8_t s_persistent_buffer[SIZE];
-uint8_t* get_buffer_pointer(void)
-{
+uint8_t *get_buffer_pointer(void) {
   return s_persistent_buffer;
 }
 
@@ -373,16 +420,15 @@ uint8_t* get_buffer_pointer(void)
 
 ```c
 /* Good: Single return */
-int validate_input(uint8_t input)
-{
+int validate_input(uint8_t input) {
   int result = ERROR_INVALID;
-  
+
   if ((MIN_VALUE <= input) && (MAX_VALUE >= input)) {
     if (true == is_input_allowed(input)) {
       result = SUCCESS;
     }
   }
-  
+
   return result;
 }
 ```
@@ -429,18 +475,17 @@ typedef enum {
   RESULT_ERROR_TIMEOUT = -3
 } result_code_t;
 
-result_code_t initialize_module(const config_t *config)
-{
+result_code_t initialize_module(const config_t *config) {
   if (NULL == config) {
     return RESULT_ERROR_NULL_POINTER;
   }
-  
+
   if (false == is_config_valid(config)) {
     return RESULT_ERROR_INVALID_PARAMETER;
   }
-  
+
   /* Initialization logic here */
-  
+
   return RESULT_SUCCESS;
 }
 ```
@@ -450,18 +495,17 @@ result_code_t initialize_module(const config_t *config)
 ```c
 #include <assert.h>
 
-void process_data(uint8_t *buffer, size_t length)
-{
+void process_data(uint8_t *buffer, size_t length) {
   assert(NULL != buffer);           /* Debug check */
   assert(0 < length);              /* Debug check */
   assert(MAX_LENGTH >= length);    /* Debug check */
-  
+
   /* Runtime checks for production */
   if (NULL == buffer) {
     log_error("Null buffer passed to process_data");
     return;
   }
-  
+
   /* Process data */
 }
 ```
@@ -509,6 +553,62 @@ uint16_t calculate_crc16(const uint8_t *data, size_t length, uint16_t initial);
  * 
  * @copyright Copyright (c) 2024
  */
+```
+
+---
+
+## Access Control (C-style encapsulation)
+
+### Structure Member Visibility and Encapsulation
+
+- **Use opaque pointers** for true encapsulation when needed
+- **Consider accessor functions** before exposing internal structure members
+- **Have a good reason** for allowing direct member access, other than convenience
+- **Not all members need hiding** - Simple data structures can have exposed members when it improves API usability
+
+**Rationale**: Requiring all structure members to be hidden with accessors is overly constraining for API design. This approach provides flexibility while maintaining encapsulation principles where needed.
+
+```c
+/* Good: Simple data structure with direct access */
+typedef struct {
+  float x;  /* Direct access justified for simple data */
+  float y;
+} point_t;
+
+/* Good: Opaque pointer with accessor functions for encapsulation */
+/* In header file (sensor_driver.h) */
+typedef struct sensor_driver sensor_driver_t;  /* Opaque type */
+
+/* Accessor functions provide controlled access */
+sensor_driver_t *sensor_driver_create(void);
+void sensor_driver_destroy(sensor_driver_t *driver);
+bool sensor_driver_initialize(sensor_driver_t *driver);
+size_t sensor_driver_get_buffer_size(const sensor_driver_t *driver);
+bool sensor_driver_is_ready(const sensor_driver_t *driver);
+
+/* In implementation file (sensor_driver.c) */
+struct sensor_driver {
+  uint8_t *buffer;          /* Hidden from users */
+  size_t buffer_size;       /* Hidden from users */
+  bool is_initialized;      /* Hidden from users */
+};
+
+/* Consider: Partial hiding with nested structures */
+typedef struct {
+  /* Public configuration - users can modify directly */
+  uint32_t timeout_ms;      /* Direct access appropriate */
+  uint8_t retry_count;      /* Direct access appropriate */
+
+  /* Private implementation details */
+  void *_internal;          /* Opaque pointer to hide implementation */
+} configuration_t;
+
+/* Implementation detail structure (in .c file only) */
+struct config_internal {
+  void *handle;            /* Never exposed to users */
+  uint8_t *raw_buffer;     /* Dangerous to expose */
+  size_t buffer_size;      /* Internal state */
+};
 ```
 
 ---
